@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cybersecurity Chatbot</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    textarea {
+      width: 60%;
+      height: 120px;
+      padding: 15px;
+      font-size: 16px;
+      border: 2px solid #3498db;
+      border-radius: 10px;
+      resize: none;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 15px;
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #answer {
+      margin-top: 30px;
+      width: 60%;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛡️ Cybersecurity Chatbot</h1>
+
+  <textarea id="question" placeholder="Ask your cybersecurity question..."></textarea><br>
+
+  <button onclick="askQuestion()">Ask</button>
+
+  <div id="answer"></div>
+
+  <script>
+    async function askQuestion() {
+      const question = document.getElementById("question").value;
+      const answerDiv = document.getElementById("answer");
+
+      if (!question.trim()) {
+        answerDiv.innerHTML = "<p>Please enter a question.</p>";
+        return;
+      }
+
+      answerDiv.innerHTML = "<p>Thinking...</p>";
+
+      try {
+        const response = await fetch("http://localhost:8000/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userInput: question })
+        });
+
+        const data = await response.json();
+        answerDiv.innerHTML = `<h3>Answer:</h3><p>${data.answer}</p>`;
+      } catch (error) {
+        answerDiv.innerHTML = `<p style="color:red;">Error: ${error}</p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
