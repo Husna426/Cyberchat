@@ -78,7 +78,7 @@
       answerDiv.innerHTML = "<p>Thinking...</p>";
 
       try {
-        const response = await fetch("http://localhost:8000/ask", {
+        const response = await fetch("http://https://cyberchat-6qqd.onrender.com/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userInput: question })
